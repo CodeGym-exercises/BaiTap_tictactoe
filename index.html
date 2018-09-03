@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Tic tac toe</title>
+	<style>
+		*{
+			margin:0;
+			padding: 0;
+		}
+		#container{
+			width: 500px;
+			height: 300px;
+			margin:20px auto;
+
+		}
+		#container #header{
+			width: 100%;
+			height: 60px;
+		}
+		#container #header h1{
+			display: inline-block;
+		}
+		#container #header hr{
+			width: 100%;
+			clear:both;
+		}
+		b{
+			font-size: 35px;
+
+		}
+		#container #result{
+			width:250px;
+			height: 
+		}
+		#container td{
+			width:50px;
+			height: 50px;
+			border: 1px solid black;
+			transition: 0.3s;
+			cursor: pointer;
+			text-align: center;
+			line-height: 39px;
+		}
+		#container .box:hover{
+			background-color: #09ecb5;
+			border-radius: 3px;
+			border: 1px solid #6be66b;
+		}
+	</style>
+</head>
+<body onload="startGame();">
+	<div id="container" >
+		<div id="header">
+			<h1 >Tic tac toe</h1>
+			<hr/>
+		</div>
+		<table id="result">
+			
+		</table>
+	</div>
+	<script type="text/javascript">
+		let result = document.getElementById("result");
+		let map_array = [];
+		let step = 1;
+		function startGame(){
+			result.innerHTML ="";
+			for(let i = 0;i<3;i++){
+				map_array[i] = new Array(0);
+				let str = '';
+				for(let j = 0;j<3;j++){
+					map_array[i][j] = "<td class='box' id='"+i+j+"' onclick='Choose(this);'></td>" ;
+					str += map_array[i][j];
+				}
+				result.innerHTML += str ;			
+			}
+		};
+		function Choose(position){
+			let turn="";
+			if(position.innerHTML===""){
+				if(step%2==1){
+					turn="X";
+					position.innerHTML = turnMove(turn);
+					step+=1;
+					
+					console.log();
+				}
+				else if(step%2==0){
+					turn = "O";
+					position.innerHTML = turnMove(turn);
+					step=1;
+					console.log();
+					
+				}	
+			}
+			if(findWinner(turn)||findWinner(turn)){
+				alert(turn+ " thang");
+				startGame();
+			}
+		};
+
+		function turnMove(turn){
+			let str = "";
+			if(turn == "X"){
+				str = "<b style='color:#0599c7;'>"+turn+"</b>"
+			}else{
+				str = "<b style='color:#de0404;'>"+turn+"</b>"
+			}
+			return str;
+		}
+
+		function findWinner(move){
+			let result = false;
+			if(checkRow("00","01","02",move)||checkRow("10","11","12",move)||checkRow("20","21","22",move)||
+				checkRow("00","10","20",move)||checkRow("01","11","21",move)||checkRow("02","12","22",move)||
+				checkRow("00","11","22",move)||checkRow("02","11","20",move)){
+				result = true;
+			}
+			return result;
+		}
+
+		function checkRow(a,b,c,move){
+			let result = false;
+				if(getID(a)==move&&getID(b)==move&&getID(c)==move){
+					result = true;
+				}
+			return result;
+		}
+		function getID(id){
+			return document.getElementById(id).innerText;
+		}
+	</script>
+</body>
+</html>
